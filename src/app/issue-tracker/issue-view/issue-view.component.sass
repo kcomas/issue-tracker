@@ -1,0 +1,14 @@
+@use '../issue-tracker.global.sass' as *
+
+$border-color: #d1dee1
+
+$background-color: #eff8ff
+
+.issue-view-wrapper
+  @include issue-wrapper($border-color)
+  .issue-view-header
+    @include view-header($border-color, $background-color)
+    h5
+      color: #666370
+      font-weight: bold
+      margin: 0

@@ -1,0 +1,70 @@
+<div class="container wrapper">
+    <div class="row">
+        <div class="col main-col">
+            <div class="row">
+                <div class="col-md-2">
+                    <div ngbDropdown>
+                        <button
+                            class="btn btn-outline-primary"
+                            ngbDropdownToggle
+                        >
+                            Filter Tags By:
+                        </button>
+                        <div ngbDropdownMenu>
+                            <button
+                                ngbDropdownItem
+                                [ngClass]="{'active': tagFilterMethod === tagFilterMethodTypes.Any}"
+                                (click)="setTagFilterMethod(tagFilterMethodTypes.Any)"
+                                [disabled]="editorLock"
+                            >
+                                Any Of
+                            </button>
+                            <button
+                                ngbDropdownItem
+                                [ngClass]="{'active': tagFilterMethod === tagFilterMethodTypes.All}"
+                                (click)="setTagFilterMethod(tagFilterMethodTypes.All)"
+                                [disabled]="editorLock"
+                            >
+                                All Of
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <ul class="list-group list-group-horizontal-md">
+                        <li
+                            *ngFor="let tag of allTags"
+                            (click)="filterByTag(tag)"
+                            [ngClass]="{'active': isTagSelected(tag)}"
+                            class="list-group-item tag-on-hover tag-item"
+                        >
+                            {{tag}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <button
+                (click)="toggleCalcArith()"
+                [ngClass]="{'btn-success': calcArith, 'btn-secondary': !calcArith}"
+                type="button"
+                class="btn calc-button"
+            >
+                Calculator Mode: {{ calcArith ? "On": "Off" }}
+            </button>
+            <app-issue-view
+                *ngFor="let issue of issues"
+                (setEditorLock)="setEditorLock($event)"
+                [issue]="issue"
+                [allTags]="allTags"
+                [calcArith]="calcArith"
+                [editorLock]="editorLock"
+            >
+            </app-issue-view>
+            <app-issue-editor
+                [allTags]="allTags"
+                [editorLock]="editorLock"
+                [calcArith]="calcArith"
+            ></app-issue-editor>
+        </div>
+    </div>
+</div>

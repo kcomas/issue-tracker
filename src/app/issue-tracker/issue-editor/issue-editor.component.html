@@ -1,0 +1,137 @@
+<div class="container issue-editor-wraper">
+    <form [formGroup]="issueForm">
+        <div class="mb-3 issue-editor-header">
+            <input
+                formControlName="title"
+                class="form-control"
+                placeholder="Your Title"
+                required
+            />
+        </div>
+        <div class="mb-3 text-input">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a
+                        (click)="toggleTextPreview($event)"
+                        [ngClass]="{'active': !textPreview}"
+                        class="nav-link"
+                        href="#"
+                        >Write</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        (click)="toggleTextPreview($event)"
+                        [ngClass]="{'active': textPreview}"
+                        class="nav-link"
+                        href="#"
+                        >Preview</a
+                    >
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane show active">
+                    <ng-template
+                        *ngIf="textPreview then preview; else write"
+                    ></ng-template>
+                    <ng-template #preview>
+                        <app-issue-html-view
+                            [html]="getIssueFormText()"
+                            [calcArith]="calcArith"
+                        ></app-issue-html-view>
+                    </ng-template>
+                    <ng-template #write>
+                        <textarea
+                            formControlName="text"
+                            class="form-control"
+                            placeholder="Your Text"
+                            required
+                        ></textarea>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 tag-input">
+            <input
+                (keyup)="searchAndAddTags($event)"
+                formControlName="newTag"
+                class="form-control"
+                placeholder="Search And/Or Add Tag"
+            />
+        </div>
+        <div class="row tag-with-buttons">
+            <div class="btn-toolbar col-mb-3 tag-padding">
+                <div class="btn-group me-2">
+                    <ng-container *ngFor="let tag of issueTagsClone">
+                        <button
+                            (click)="removeTagFromIssue(tag)"
+                            type="button"
+                            class="btn btn-outline-danger tag-item"
+                        >
+                            {{tag}} x
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="btn-toolbar col-mb-3 tag-padding">
+                <div class="btn-group me-2">
+                    <ng-container *ngFor="let tag of searchTags">
+                        <button
+                            (click)="addTagToIssue(tag)"
+                            type="button"
+                            class="btn btn-outline-success tag-item"
+                        >
+                            {{tag}} +
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-end display-action-buttons">
+                <button
+                    (click)="saveIssue()"
+                    type="button"
+                    class="btn btn-success"
+                    [disabled]="editorLock || issueForm.invalid"
+                >
+                    Save
+                </button>
+                <button
+                    (click)="cancelEdit()"
+                    type="button"
+                    class="btn btn-secondary"
+                    [disabled]="editorLock"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col form-error">
+            <div *ngIf="issueFormIsInvalid()">
+                <div
+                    *ngIf="issueForm.controls.title.invalid"
+                    class="alert alert-danger"
+                >
+                    Title is required, of at least length {{titleMinLength}} and
+                    only contain uppercase, lowercase, numbers and spaces
+                </div>
+                <div
+                    *ngIf="issueForm.controls.text.invalid"
+                    class="alert alert-danger"
+                >
+                    Text is required, of at least length {{textMinLength}} and
+                    does not allow unsafe tags (such as script) or tags that a
+                    user can modify (such as input)
+                </div>
+                <div
+                    *ngIf="issueForm.controls.newTag.invalid"
+                    class="alert alert-danger"
+                >
+                    Tags must be of length {{newTagMinLength}} and can only have
+                    lowercase letters and numbers
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

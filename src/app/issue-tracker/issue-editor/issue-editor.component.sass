@@ -1,0 +1,29 @@
+@use '../issue-tracker.global.sass' as *
+
+$border-color: #dfdfdf
+
+$background-color: #f7f8fa
+
+$default-padding: 0 10px
+
+.issue-editor-wraper
+  @include issue-wrapper($border-color)
+  padding: 0
+  .issue-editor-header
+    @include view-header($border-color, $background-color)
+  .text-input
+    padding: $default-padding
+    margin-bottom: 16px
+    .tab-content
+      .tab-pane
+        >textarea
+          background-color: #fafbfd
+  .tag-padding
+    margin-bottom: 0
+    margin-left: 10px
+  .tag-input
+    padding: $default-padding
+  .tag-with-buttons
+    margin: 0 10px 10px 0
+  .form-error
+    margin: 0 10px

@@ -1,0 +1,19 @@
+
+.tag-item
+  padding: 3px 8px
+  font-weight: bold
+
+@mixin issue-wrapper($border-color)
+  border: 1px solid $border-color
+  margin: 10px 0
+  padding-bottom: 10px
+
+@mixin view-header($border-color, $background-color)
+  padding: 10px
+  border-bottom: 1px solid $border-color
+  background-color: $background-color
+
+.display-action-buttons
+  padding-right: 0
+  >button
+    margin-left: 10px

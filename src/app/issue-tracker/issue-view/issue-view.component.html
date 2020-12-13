@@ -1,0 +1,57 @@
+<ng-template *ngIf="editing; then edit else view"></ng-template>
+<ng-template #edit>
+    <app-issue-editor
+        (unlockEditor)="unlockEditor()"
+        [id]="issue.id"
+        [title]="issue.title"
+        [text]="issue.text"
+        [tags]="issue.tags"
+        [allTags]="allTags"
+        [calcArith]="calcArith"
+    ></app-issue-editor>
+</ng-template>
+<ng-template #view>
+    <div class="container issue-view-wrapper">
+        <div class="row issue-view-header">
+            <div class="col align-self-center">
+                <h5>{{issue.title}}</h5>
+            </div>
+            <div class="col-auto display-action-buttons">
+                <button
+                    (click)="lockEditor()"
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="editorLock"
+                >
+                    Edit
+                </button>
+                <button
+                    (click)="deleteIssue(issue.id)"
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="editorLock"
+                >
+                    Delete
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <app-issue-html-view
+                [html]="issue.text"
+                [calcArith]="calcArith"
+            ></app-issue-html-view>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul class="list-group list-group-horizontal-md">
+                    <li
+                        *ngFor="let tag of issue.tags"
+                        class="list-group-item tag-item"
+                    >
+                        {{tag}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>
