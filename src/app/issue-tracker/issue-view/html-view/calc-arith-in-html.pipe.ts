@@ -1,14 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+const exprRegex = /(?:\d+[\+-]\d+|[\+-]\d+)+/g;
+
+export function generateHtmlExpr(expr: string, result: number) {
+    return `<span class="arith" title=${expr}>${result}</span>`;
+}
+
 @Pipe({
     name: 'calcArithInHtml',
 })
 export class CalcArithInHtmlPipe implements PipeTransform {
     transform(html: string, canCalc: boolean): string {
-        if (!canCalc) return html;
-        const matches = html.match(
-            /(?:\d+[ \t]*[\+-][ \t]*\d+|[\+-][ \t]*\d+)+/g,
-        );
+        if (!html || !canCalc) return html;
+        const matches = html.match(exprRegex);
         if (!matches) return html;
         for (const expr of matches) {
             const stack = expr.match(/([\+-]|\d+)/g);
@@ -27,10 +31,7 @@ export class CalcArithInHtmlPipe implements PipeTransform {
                         break;
                 }
             }
-            html = html.replace(
-                expr,
-                `<span class="arith" title=${expr}>${result}</span>`,
-            );
+            html = html.replace(expr, generateHtmlExpr(expr, result));
         }
         return html;
     }

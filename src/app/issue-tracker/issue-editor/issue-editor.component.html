@@ -12,7 +12,7 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a
-                        (click)="toggleTextPreview($event)"
+                        (click)="toggleTextPreview($event, false)"
                         [ngClass]="{'active': !textPreview}"
                         class="nav-link"
                         href="#"
@@ -21,7 +21,7 @@
                 </li>
                 <li class="nav-item">
                     <a
-                        (click)="toggleTextPreview($event)"
+                        (click)="toggleTextPreview($event, true)"
                         [ngClass]="{'active': textPreview}"
                         class="nav-link"
                         href="#"
