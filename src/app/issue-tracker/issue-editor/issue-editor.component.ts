@@ -111,10 +111,10 @@ export class IssueEditorComponent implements OnInit {
         this.resetForm();
     }
 
-    toggleTextPreview(event: MouseEvent) {
+    toggleTextPreview(event: MouseEvent, toState: boolean) {
         event.preventDefault();
         if (this.issueFormIsInvalid()) this.textPreview = false;
-        else this.textPreview = !this.textPreview;
+        else this.textPreview = toState;
     }
 
     issueFormIsInvalid() {
@@ -133,6 +133,7 @@ export class IssueEditorComponent implements OnInit {
         this.clearSearchTags();
         this.issueForm.reset();
         this.unlockEditor.emit();
+        this.textPreview = false;
     }
 
     private copyTags() {
